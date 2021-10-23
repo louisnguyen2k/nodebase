@@ -1,0 +1,68 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    /* Strict Type-Checking Options */
+    // "strict": true,
+    // "noImplicitAny": true,
+    // "strictNullChecks": true,
+    // "strictFunctionTypes": true,
+    // "strictBindCallApply": true,
+    // "strictPropertyInitialization": true,
+    // "noImplicitThis": true,
+    // "alwaysStrict": true,
+    /* Additional Checks */
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noImplicitReturns": true,
+    // "noFallthroughCasesInSwitch": true,
+    /* Module Resolution Options */
+    /* Experimental Options */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    /* Advanced Options */
+    // "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src",
+    "outDir": "dist",
+    "paths": {
+      "@configs/*": [
+        "configs/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@database/*": [
+        "database/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@middlewares/*": [
+        "middlewares/*"
+      ],
+      "@routes": [
+        "routes/index"
+      ],
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+  ],
+  "files": [
+    "src/index.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

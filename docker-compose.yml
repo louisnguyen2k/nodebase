@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  pwm_server:
+    env_file:
+      - .env
+    image: louisnguyen2000/pwm_server:dev
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    networks:
+      - overlay
+networks:
+  overlay:
