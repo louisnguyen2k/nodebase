@@ -1,8 +1,8 @@
 import * as express from 'express';
-import { JWTAuthGuard } from '@components/auth/guards/jwt-auth.guard';
-import { Authorization } from '@components/auth/types/Authorization';
-import { ApiResponseService } from '@shared/services/api-response/api-response.service';
-import { UnAuthorizedErrorResponse } from '@shared/services/api-response/models/errors';
+import { JWTAuthGuard } from 'components/auth/guards/jwt-auth.guard';
+import { Authorization } from 'components/auth/types/Authorization';
+import { ApiResponseService } from 'shared/services/api-response/api-response.service';
+import { UnAuthorizedErrorResponse } from 'shared/services/api-response/models/errors';
 
 function expressAuthentication(
   request: express.Request,
@@ -12,10 +12,14 @@ function expressAuthentication(
   const jwtAuthGuard = new JWTAuthGuard();
   const apiResponseService = new ApiResponseService();
   /// authen access token
-  if (securityName === 'authorization') {
-    const token = request.headers['authorization'] || (request.headers['token'] as string);
+  if (securityName === 'Authorization' || securityName === 'authorization') {
+    const token =
+      (request.headers['Authorization'] as string) ||
+      (request.headers['authorization'] as string) ||
+      (request.headers['token'] as string);
+    console.log('token', token);
     if (!token) {
-      Promise.reject(apiResponseService.withError(new UnAuthorizedErrorResponse(null)));
+      Promise.reject(apiResponseService.withError(new UnAuthorizedErrorResponse()));
     }
     return jwtAuthGuard
       .verify(token)
@@ -36,3 +40,9 @@ function expressAuthentication(
   return Promise.reject(apiResponseService.withError(new UnAuthorizedErrorResponse(null)));
 }
 export { expressAuthentication };
+
+// "token": {
+//   "name": "token",
+//   "type": "apiKey",
+//   "in": "header"
+// },

@@ -9,6 +9,7 @@ export class ApiResponseService<T> {
   }
 
   withError(baseErrorResponse: BaseErrorResponse): BaseErrorResponse {
+    console.log('baseErrorResponse', baseErrorResponse);
     throw { ...baseErrorResponse };
   }
 }

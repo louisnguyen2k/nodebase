@@ -7,15 +7,11 @@
     "basePath": "/api/v1",
     "specVersion": 3,
     "securityDefinitions": {
-      "token": {
-        "name": "token",
-        "type": "apiKey",
-        "in": "header"
-      },
       "Authorization": {
         "name": "Authorization",
-        "type": "Bearer",
-        "in": "header"
+        "type": "apiKey",
+        "in": "header",
+        "template": "Bearer {apiKey}"
       }
     },
     "specMerging": "recursive",
@@ -52,7 +48,7 @@
   },
   "routes": {
     "basePath": "/api/v1",
-    "authenticationModule": "./src/middlewares/auth.middleware.ts",
+    "authenticationModule": "./src/middlewares/auth-expresss.middleware.ts",
     "routesDir": "src/routes"
   }
 }

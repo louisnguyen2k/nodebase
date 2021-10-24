@@ -1,13 +1,14 @@
-import { vi, en } from '../shared/i18n';
-import { Response, NextFunction, Request } from 'express';
+import { vi, en } from '../shared/locales';
+import { Response, NextFunction } from 'express';
+import { Express } from 'shared/types/Express';
 
-export const handleLanguage = function (req: Request, res: Response, next: NextFunction) {
+export const handleLanguage = function (req: Express.Request, res: Response, next: NextFunction) {
   const locale = req.headers.lang || req.headers.language;
   switch (locale) {
-    case 'vi':
+    case 'vi' || 'vietnamese':
       req.locales = vi;
       break;
-    case 'en':
+    case 'en' || 'english':
       req.locales = en;
       break;
     default:

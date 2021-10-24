@@ -33,26 +33,26 @@
     "baseUrl": "src",
     "outDir": "dist",
     "paths": {
+      "@components/*": [
+        "components/*"
+      ],
       "@configs/*": [
         "configs/*"
-      ],
-      "@shared/*": [
-        "shared/*"
       ],
       "@database/*": [
         "database/*"
       ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
       "@middlewares/*": [
         "middlewares/*"
       ],
+      "@consoles/*": [
+        "consoles/*"
+      ],
       "@routes": [
         "routes/index"
+      ],
+      "@shared/*": [
+        "shared/*"
       ],
     }
   },

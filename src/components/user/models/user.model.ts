@@ -11,9 +11,9 @@ import {
   HasManyCreateAssociationMixin,
   Optional,
 } from 'sequelize';
-import { Role } from '@components/auth/models/role.model';
+import { Role } from 'components/auth/models/role.model';
 import { USER_GENDER } from '../user.constants';
-import { IS_ACTIVE } from '@shared/constants';
+import { IS_ACTIVE } from 'shared/constants';
 
 export interface UserAttribute {
   id: number;

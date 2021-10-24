@@ -89,14 +89,12 @@
     "typescript-formatter": "^7.2.2"
   },
   "_moduleAliases": {
-    "@config": "./dist/config",
-    "@controllers": "./dist/controllers",
-    "@models": "./dist/models",
+    "@components": "./dist/components",
+    "@configs": "./dist/configs",
+    "@consoles": "./dist/consoles",
+    "@database": "./dist/database",
+    "@middlewares": "./dist/middlewares",
     "@routes": "./dist/routes",
-    "@services": "./dist/services",
-    "@utils": "./dist/utils",
-    "@helpers": "./dist/helpers",
-    "@commons": "./dist/commons",
-    "@middleware": "./dist/middleware"
+    "@shared": "./dist/shared"
   }
 }

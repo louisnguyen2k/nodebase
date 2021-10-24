@@ -1,23 +1,25 @@
-import express, { Express } from 'express';
+import express from 'express';
+import { Express } from 'express';
 import { json, urlencoded } from 'body-parser';
 import connect from './database/sequelize-connect';
 import morgan from 'morgan';
 import cors from 'cors';
 import initRoutes from './routes';
-import { handleLanguage, trimRequestAll } from './middlewares';
-export async function createApp(port: number): Promise<Express> {
-  const app = express();
-  app.set('port', port);
+import { handleLanguage } from './middlewares/language.middleware';
+import { trimRequestAll } from './middlewares/trim-request.middleware';
 
-  this.app.use(cors());
-  this.app.use(cors({ optionsSuccessStatus: 200 }));
-  this.app.use(urlencoded({ extended: true }));
-  this.app.use(json());
-  this.app.use(morgan('combined'));
-  this.app.use(express.static('public'));
-  this.app.use('/uploads', express.static('uploads'));
-  this.app.use(handleLanguage);
-  this.app.use(trimRequestAll);
+export async function createApp(): Promise<Express> {
+  const app: Express = express();
+
+  app.use(cors());
+  app.use(cors({ optionsSuccessStatus: 200 }));
+  app.use(urlencoded({ extended: true }));
+  app.use(json());
+  app.use(morgan('combined'));
+  app.use(express.static('public'));
+  app.use('/uploads', express.static('uploads'));
+  app.use(handleLanguage);
+  app.use(trimRequestAll);
   initRoutes(app);
 
   // database connection

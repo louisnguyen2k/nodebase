@@ -1,10 +1,10 @@
 import { Body, Request, Get, Path, Post, Put, Query, Route, SuccessResponse, Delete, Tags, Security } from 'tsoa';
-import { handleSingleFile } from '../../../middlewares/upload.middleware';
-import { detectedDeviceMiddleware } from '../../../middlewares/detectedDevice.middleware';
+import { handleSingleFile } from 'middlewares/upload.middleware';
+import { detectedDeviceMiddleware } from 'middlewares/detected-device.middleware';
+import { BaseSuccessResponse } from 'shared/services/api-response/models/BaseSuccessRespone';
+import { Express } from 'shared/types/Express';
 import { LoginDto } from '../dto/Login.dto';
-import express from 'express';
 import { RegisterDto } from '../dto/Register.dto';
-import { BaseSuccessResponse } from '@shared/services/api-response/models/BaseSuccessRespone';
 
 @Route('auth')
 @Tags('Auths')
@@ -15,8 +15,10 @@ export class AuthController {
    * @param body
    * @returns Promise
    */
+
+  @Security('Authorization')
   @Post('/register')
-  public async register(@Request() request: express.Request, @Body() body: RegisterDto): Promise<any> {
+  public async register(@Request() request: Express.Request, @Body() body: RegisterDto): Promise<any> {
     return { body };
   }
 
@@ -26,7 +28,7 @@ export class AuthController {
    * @returns Promise
    */
   @Post('/login')
-  public async login(@Request() request: express.Request, @Body() body: LoginDto): Promise<any> {
+  public async login(@Request() request: Express.Request, @Body() body: LoginDto): Promise<any> {
     const device = detectedDeviceMiddleware(request);
     // const { locales } = request;
     return { body };

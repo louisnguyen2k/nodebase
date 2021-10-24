@@ -1,5 +1,5 @@
 import { Response, NextFunction, Request } from 'express';
-import { Utils } from '@shared/utils/Utils';
+import { Utils } from 'shared/utils/Utils';
 
 const trimRequestAll = function (req: Request, res: Response, next: NextFunction) {
   if (req.body) Utils.trimStringProperties(req.body);
