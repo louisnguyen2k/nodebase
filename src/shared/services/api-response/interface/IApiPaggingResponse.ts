@@ -1,6 +1,5 @@
 import { LengthAwareMeta } from '../types/LengthAwareMeta';
-import { IApiDataSuccessResponse } from './IApiDataSuccessResponse';
 
-export interface IApiPaggingResponse<T> extends IApiDataSuccessResponse<T> {
+export interface IApiPaggingResponse<T> {
   meta: LengthAwareMeta;
 }

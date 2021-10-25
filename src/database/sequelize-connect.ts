@@ -1,5 +1,5 @@
-import database from '../configs/sequelize-config';
-import { logger } from '../shared/logs/logger';
+import database from '../configs/sequelize.config';
+import { logger } from '../shared/logger/logger';
 
 export default (): Promise<void> => {
   return database()

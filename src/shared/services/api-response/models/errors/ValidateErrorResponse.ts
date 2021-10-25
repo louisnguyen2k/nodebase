@@ -1,4 +1,4 @@
-import environment from 'configs/environment';
+import environment from 'configs/environment.constants';
 import { ErrorMessage, HttpCode } from '../../constants/api-response.constant';
 import { BaseErrorResponse } from '../BaseErrorResponse';
 

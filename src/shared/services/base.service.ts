@@ -1,8 +1,7 @@
 import { Model, Sequelize } from 'sequelize';
-import AppError from 'shared/utils/AppError';
 import { IBaseService } from './interfaces/IBaseService';
-import { ApiResponseService } from '../api-response/api-response.service';
-import { ConflictErrorResponse } from '../api-response/models/errors';
+import { ApiResponseService } from './api-response/api-response.service';
+import { ConflictErrorResponse } from './api-response/models/errors';
 
 export class BaseService<E extends Model> implements IBaseService<E> {
   public model: any;

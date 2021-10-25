@@ -33,36 +33,37 @@
     "baseUrl": "src",
     "outDir": "dist",
     "paths": {
-      "@components/*": [
+      "components/*": [
         "components/*"
       ],
-      "@configs/*": [
+      "configs/*": [
         "configs/*"
       ],
-      "@database/*": [
+      "database/*": [
         "database/*"
       ],
-      "@middlewares/*": [
+      "middlewares/*": [
         "middlewares/*"
       ],
-      "@consoles/*": [
+      "consoles/*": [
         "consoles/*"
       ],
-      "@routes": [
+      "routes": [
         "routes/index"
       ],
-      "@shared/*": [
+      "shared/*": [
         "shared/*"
+      ],
+      "websocket/*": [
+        "websocket/*"
       ],
     }
   },
   "include": [
     "src/**/*.ts",
   ],
-  "files": [
-    "src/index.d.ts"
-  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

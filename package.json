@@ -1,10 +1,11 @@
 {
-  "name": "yoyo",
+  "name": "yoyo-api",
   "version": "1.0.0",
   "main": "main.js",
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist && rm -rf logs",
+    "sync": "nodemon --exec 'ts-node src/database/sequelize-sync.ts'",
     "start": "node dist/main.js",
     "devlog": "tsc -p . && ts-node-dev dist/main.js",
     "dev": "tsoa spec-and-routes && concurrently \"nodemon\" \"nodemon --watch './**/controllers/*.ts' -x tsoa spec-and-routes\"",
@@ -41,7 +42,6 @@
     "express-validator": "^6.12.1",
     "firebase-admin": "^9.11.0",
     "install": "^0.13.0",
-    "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
@@ -53,9 +53,11 @@
     "node-schedule": "^2.0.0",
     "nodemailer": "^6.6.5",
     "npm": "^7.20.6",
+    "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "sequelize": "^6.7.0",
     "sequelize-cli": "^6.2.0",
+    "sequelize-typescript": "^2.1.1",
     "socket.io": "^4.1.2",
     "swagger-ui-express": "^4.1.6",
     "timestamp": "^0.0.1",
@@ -89,12 +91,13 @@
     "typescript-formatter": "^7.2.2"
   },
   "_moduleAliases": {
-    "@components": "./dist/components",
-    "@configs": "./dist/configs",
-    "@consoles": "./dist/consoles",
-    "@database": "./dist/database",
-    "@middlewares": "./dist/middlewares",
-    "@routes": "./dist/routes",
-    "@shared": "./dist/shared"
+    "components": "./dist/components",
+    "configs": "./dist/configs",
+    "consoles": "./dist/consoles",
+    "database": "./dist/database",
+    "middlewares": "./dist/middlewares",
+    "routes": "./dist/routes",
+    "shared": "./dist/shared",
+    "websocket": "./dist/websocket"
   }
 }

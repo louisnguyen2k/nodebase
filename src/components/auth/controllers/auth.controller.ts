@@ -5,6 +5,7 @@ import { BaseSuccessResponse } from 'shared/services/api-response/models/BaseSuc
 import { Express } from 'shared/types/Express';
 import { LoginDto } from '../dto/Login.dto';
 import { RegisterDto } from '../dto/Register.dto';
+import { ForbiddenErrorResponse } from 'shared/services/api-response/models/errors';
 
 @Route('auth')
 @Tags('Auths')
@@ -30,7 +31,7 @@ export class AuthController {
   @Post('/login')
   public async login(@Request() request: Express.Request, @Body() body: LoginDto): Promise<any> {
     const device = detectedDeviceMiddleware(request);
-    // const { locales } = request;
+    const { locales } = request;
     return { body };
   }
 }

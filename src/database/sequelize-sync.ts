@@ -1,5 +1,5 @@
-import database from '../configs/sequelize-config';
-import { logger } from '../shared/logs/logger';
+import database from '../configs/sequelize.config';
+import { logger } from '../shared/logger/logger';
 
 export default (): void => {
   database()
@@ -8,6 +8,6 @@ export default (): void => {
       logger.info({ message: `Sequelize sync result: ${res}` });
     })
     .catch((error: Error) => {
-      logger.info({ message: `Sequelize sync error: ${error}` });
+      logger.error({ message: `Sequelize sync error: ${error}` });
     });
 };

@@ -1,57 +1,61 @@
-import { Sequelize, Model, Optional, DataTypes } from 'sequelize';
+import {
+  PrimaryKey,
+  Model,
+  Column,
+  Table,
+  DataType,
+  AllowNull,
+  AutoIncrement,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  Validate,
+  Default,
+  ForeignKey,
+} from 'sequelize-typescript';
+import sequelize from 'sequelize';
+import { IS_ACTIVE } from 'database/database.constants';
+import { Role } from 'components/auth/models/role.model';
+import { User } from 'components/user/models/user.model';
 
-export interface UserRoleAttribute {
-  id: number;
+@Table({ modelName: 'user_role' })
+export class UserRole extends Model<UserRole> {
+  @PrimaryKey
+  @AutoIncrement
+  @AllowNull(false)
+  @Column({ type: DataType.INTEGER })
+  id!: number;
+
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
   user_id: number;
+
+  @ForeignKey(() => Role)
+  @Column({ type: DataType.INTEGER })
   role_id: number;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date;
-}
-export interface UserRoleCreationAttributes extends Optional<UserRoleAttribute, 'id'> {}
 
-export class UserRoles extends Model<UserRoleAttribute, UserRoleCreationAttributes> implements UserRoleAttribute {
-  public id!: number; // Note that the `null assertion` `!` is required in strict mode.
-  public user_id!: number;
-  public role_id!: number;
-
-  // timestamps!
-  public readonly created_at!: Date;
-  public readonly updated_at!: Date;
-  public readonly deleted_at!: Date;
-}
-
-export const initModel = (sequelize: Sequelize) => {
-  UserRoles.init(
-    {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER.UNSIGNED,
-      },
-      user_id: { allowNull: false, type: DataTypes.INTEGER },
-      role_id: { allowNull: false, type: DataTypes.INTEGER },
-      created_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      },
-      updated_at: {
-        type: DataTypes.DATE,
-        allowNull: true,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      },
-      deleted_at: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
+  @AllowNull(false)
+  @Default(IS_ACTIVE.ACTIVE)
+  @Validate({
+    isIn: {
+      msg: 'Invalid active status.',
+      args: [Object.values(IS_ACTIVE)],
     },
-    {
-      tableName: 'user_role',
-      sequelize, // passing the `sequelize` instance is required
-    },
-  );
+  })
+  @Column({ type: DataType.INTEGER })
+  is_active!: number;
 
-  return UserRoles;
-};
+  @CreatedAt
+  @Default(sequelize.literal('CURRENT_TIMESTAMP'))
+  @Column
+  created_at!: Date;
+
+  @UpdatedAt
+  @Default(sequelize.literal('CURRENT_TIMESTAMP'))
+  @Column
+  updated_at!: Date;
+
+  @DeletedAt
+  @Column
+  deleted_at!: Date;
+}

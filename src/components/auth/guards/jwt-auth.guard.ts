@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import environment from 'configs/environment';
+import environment from 'configs/environment.constants';
 import { Authorization } from '../types/Authorization';
 import { JWTPayload } from '../types/JWTPayload';
 

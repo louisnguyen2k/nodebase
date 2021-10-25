@@ -24,13 +24,13 @@
           "url": "{server}/api/v1",
           "variables": {
             "server": {
-              "default": "http://18.140.131.178:3001/"
+              "default": "http://3.1.13.10:5005/"
             }
           }
         }
       ],
       "paths": {
-        "/files/uploadImage": {
+        "/files/upload-image": {
           "post": {
             "consumes": ["multipart/form-data"],
             "parameters": [

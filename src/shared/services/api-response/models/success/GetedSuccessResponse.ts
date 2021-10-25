@@ -1,5 +1,4 @@
 import { HttpCode, SuccessMessage } from '../../constants/api-response.constant';
-import { IApiDataSuccessResponse } from '../../interface/IApiDataSuccessResponse';
 import { BaseSuccessResponse } from '../BaseSuccessRespone';
 
 export class GetedSuccessResponse<T> extends BaseSuccessResponse<T> {

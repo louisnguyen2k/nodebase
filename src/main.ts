@@ -1,13 +1,22 @@
-require('./register-module-alias');
-import environment from './configs/environment';
-import { logger } from './shared/logs/logger';
+import './register-module-alias';
+import 'reflect-metadata';
+import environment from './configs/environment.constants';
+import { logger } from './shared/logger/logger';
 import { createApp } from './app';
 import startSetup from '../setup';
+import connect from './database/sequelize-connect';
+import sync from './database/sequelize-sync';
 
 async function bootstrap() {
+  console.log('environment', environment);
   const PORT = environment.port;
   const app = await createApp();
   app.listen(PORT, () => logger.info({ message: `Server successfully started at: ${PORT}` }));
+  // database connection
+  await connect();
+  // sync db
+  // sync();
+  // register module
   startSetup();
 }
 bootstrap();

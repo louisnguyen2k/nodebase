@@ -12,4 +12,5 @@ export default registerAlias(__dirname, [
   'middlewares',
   'routes',
   'shared',
+  'websocket',
 ]);

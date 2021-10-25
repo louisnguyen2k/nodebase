@@ -3,13 +3,13 @@ import { BaseErrorResponse } from './models/BaseErrorResponse';
 import { Pagination } from './types/Pagination';
 
 export class ApiResponseService<T> {
-  model: T;
-  withSuccess(baseSuccessResponse: BaseSuccessResponse<T>): Omit<BaseSuccessResponse<T>, 'withMessage'> {
+  public model?: T;
+
+  public withSuccess(baseSuccessResponse: BaseSuccessResponse<T>): Omit<BaseSuccessResponse<T>, 'withMessage'> {
     return { ...baseSuccessResponse };
   }
 
-  withError(baseErrorResponse: BaseErrorResponse): BaseErrorResponse {
-    console.log('baseErrorResponse', baseErrorResponse);
-    throw { ...baseErrorResponse };
+  public withError(baseErrorResponse: BaseErrorResponse): Omit<BaseErrorResponse, 'withMessage'> {
+    return { ...baseErrorResponse };
   }
 }

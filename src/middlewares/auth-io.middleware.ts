@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
-import { JWTAuthGuard } from '@components/auth/guards/jwt-auth.guard';
-import { ApiResponseService } from '@shared/services/api-response/api-response.service';
-import { Authorization } from '@components/auth/types/Authorization';
+import { JWTAuthGuard } from 'components/auth/guards/jwt-auth.guard';
+import { ApiResponseService } from 'shared/services/api-response/api-response.service';
+import { Authorization } from 'components/auth/types/Authorization';
 
 function socketAuthentication(socket: any, next: (error?: Error) => void): void {
   const jwtAuthGuard = new JWTAuthGuard();

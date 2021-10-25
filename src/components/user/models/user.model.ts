@@ -1,183 +1,125 @@
 import {
-  Sequelize,
+  PrimaryKey,
   Model,
-  ModelDefined,
-  DataTypes,
-  HasManyGetAssociationsMixin,
-  HasManyAddAssociationMixin,
-  HasManyHasAssociationMixin,
-  Association,
-  HasManyCountAssociationsMixin,
-  HasManyCreateAssociationMixin,
-  Optional,
-} from 'sequelize';
-import { Role } from 'components/auth/models/role.model';
+  Column,
+  Table,
+  BelongsToMany,
+  Scopes,
+  DataType,
+  AllowNull,
+  AutoIncrement,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  Min,
+  Max,
+  Validate,
+  Default,
+} from 'sequelize-typescript';
 import { USER_GENDER } from '../user.constants';
-import { IS_ACTIVE } from 'shared/constants';
+import { IS_ACTIVE } from 'database/database.constants';
+import { UserRole } from 'components/auth/models/user-role.model';
+import { Role } from 'components/auth/models/role.model';
+import sequelize from 'sequelize';
 
-export interface UserAttribute {
-  id: number;
-  phone: string;
-  email?: string;
-  password: string;
-  name?: string;
-  gender?: number;
-  token?: string;
-  app_token?: string;
-  last_login_date?: Date;
-  date_of_birth?: string;
-  avatar?: string;
-  device_id?: string;
-  is_active: number;
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: Date;
-}
-interface UserCreationAttributes extends Optional<UserAttribute, 'id'> {}
+@Scopes(() => ({
+  roles: {
+    include: [
+      {
+        model: Role,
+        through: { as: 'roles', attributes: [] },
+        foreignKey: 'user_id',
+      },
+    ],
+  },
+}))
+@Table({ modelName: 'users' })
+export class User extends Model<User> {
+  @PrimaryKey
+  @AutoIncrement
+  @AllowNull(false)
+  @Column({ type: DataType.INTEGER })
+  id!: number;
 
-export class User extends Model<UserAttribute, UserCreationAttributes> implements UserAttribute {
-  id!: number; // Note that the `null assertion` `!` is required in strict mode.
+  @AllowNull(false)
+  @Column({ type: DataType.STRING(12) })
   phone!: string;
-  email!: string | null; // for nullable fields
+
+  @AllowNull(true)
+  @Validate({ isEmail: { msg: 'Email address must be valid' }, min: 6, max: 128 })
+  @Column({ type: DataType.STRING })
+  email!: string;
+
+  @AllowNull(false)
+  @Validate({
+    len: { args: [6, 128], msg: 'Email address must be between 6 and 128 characters in length' },
+  })
+  @Column({ type: DataType.STRING })
   password!: string;
-  name!: string | null; // for nullable fields
-  gender!: number | null; // for nullable fields
-  token!: string | null; // for nullable fields
-  app_token!: string | null; // for nullable fields
-  last_login_date!: Date | null; // for nullable fields
-  date_of_birth!: string | null; // for nullable fields
-  avatar!: string | null; // for nullable fields
-  device_id!: string | null; // for nullable fields
+
+  @AllowNull(false)
+  @Column({ type: DataType.STRING })
+  name!: string | null;
+
+  @AllowNull(true)
+  @Validate({
+    isIn: {
+      msg: 'Invalid gender.',
+      args: [Object.values(USER_GENDER)],
+    },
+  })
+  @Column({ type: DataType.INTEGER })
+  gender!: number | null;
+
+  @AllowNull(true)
+  @Column({ type: DataType.STRING })
+  token!: string | null;
+
+  @AllowNull(true)
+  @Column({ type: DataType.STRING })
+  app_token!: string | null;
+
+  @AllowNull(true)
+  @Column({ type: DataType.DATE })
+  last_login_date!: Date;
+
+  @AllowNull(true)
+  @Column({ type: DataType.DATE })
+  date_of_birth!: string | null;
+
+  @AllowNull(true)
+  @Column({ type: DataType.STRING })
+  avatar!: string | null;
+
+  @AllowNull(true)
+  @Column({ type: DataType.STRING })
+  device_id!: string | null;
+
+  @AllowNull(false)
+  @Default(IS_ACTIVE.ACTIVE)
+  @Validate({
+    isIn: {
+      msg: 'Invalid active status.',
+      args: [Object.values(IS_ACTIVE)],
+    },
+  })
+  @Column({ type: DataType.INTEGER })
   is_active!: number;
 
-  // timestamps!
-  public readonly created_at!: Date;
-  public readonly updated_at!: Date;
-  public readonly deleted_at!: Date;
+  @BelongsToMany(() => Role, () => UserRole)
+  roles?: Role[];
 
-  // Since TS cannot determine model association at compile time
-  // we have to declare them here purely virtually
-  // these will not exist until `Model.init` was called.
+  @CreatedAt
+  @Default(sequelize.literal('CURRENT_TIMESTAMP'))
+  @Column
+  created_at!: Date;
 
-  public getRoles!: HasManyGetAssociationsMixin<Role>;
-  public addRoles!: HasManyAddAssociationMixin<Role, number>;
-  public hasRole!: HasManyHasAssociationMixin<Role, number>;
-  public countRoles!: HasManyCountAssociationsMixin;
-  public createRoles!: HasManyCreateAssociationMixin<Role>;
+  @UpdatedAt
+  @Default(sequelize.literal('CURRENT_TIMESTAMP'))
+  @Column
+  updated_at!: Date;
 
-  // You can also pre-declare possible inclusions, these will only be populated if you
-  // actively include a relation.
-  public readonly roles?: Role[]; // Note this is optional since it's only populated when explicitly requested in code
-
-  public static associations: {
-    roles: Association<User, Role>;
-  };
+  @DeletedAt
+  @Column
+  deleted_at!: Date;
 }
-
-export const initModel = (sequelize: Sequelize) => {
-  User.init(
-    {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER.UNSIGNED,
-      },
-      phone: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      email: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        validate: {
-          len: {
-            args: [6, 128],
-            msg: 'Email address must be between 6 and 128 characters in length',
-          },
-          isEmail: {
-            msg: 'Email address must be valid',
-          },
-        },
-      },
-      password: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        validate: { notEmpty: true, len: [6, 100] },
-      },
-
-      name: {
-        type: new DataTypes.STRING(128),
-        allowNull: false,
-      },
-      gender: {
-        allowNull: true,
-        type: DataTypes.INTEGER,
-        values: Object.values(USER_GENDER),
-        validate: {
-          isIn: {
-            args: [Object.values(USER_GENDER)],
-            msg: 'Invalid gender.',
-          },
-        },
-      },
-      token: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      app_token: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      last_login_date: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      device_id: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      date_of_birth: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      avatar: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      is_active: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        values: Object.values(IS_ACTIVE),
-        defaultValue: IS_ACTIVE.ACTIVE,
-        validate: {
-          isIn: {
-            args: [Object.values(IS_ACTIVE)],
-            msg: 'Invalid active status.',
-          },
-        },
-      },
-      created_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      },
-      updated_at: {
-        type: DataTypes.DATE,
-        allowNull: true,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      },
-      deleted_at: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-    },
-    {
-      tableName: 'users',
-      sequelize, // passing the `sequelize` instance is required
-    },
-  );
-
-  User.belongsToMany(Role, { through: 'user_role' });
-  return User;
-};
