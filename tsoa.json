@@ -49,6 +49,7 @@
   "routes": {
     "basePath": "/api/v1",
     "authenticationModule": "./src/middlewares/auth-expresss.middleware.ts",
-    "routesDir": "src/routes"
+    "routesDir": "src/routes",
+    "iocModule": "src/ioc"
   }
 }

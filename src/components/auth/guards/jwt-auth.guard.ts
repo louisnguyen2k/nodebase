@@ -1,8 +1,10 @@
+import { injectable, singleton, registry } from 'tsyringe';
 import jwt from 'jsonwebtoken';
 import environment from 'configs/environment.constants';
 import { Authorization } from '../types/Authorization';
 import { JWTPayload } from '../types/JWTPayload';
 
+@singleton()
 export class JWTAuthGuard {
   sign(payload: JWTPayload) {
     return jwt.sign({ ...payload }, environment.app_secret, {

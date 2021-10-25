@@ -5,10 +5,7 @@ import { ConflictErrorResponse } from './api-response/models/errors';
 
 export class BaseService<E extends Model> implements IBaseService<E> {
   public model: any;
-  public apiResponseService: ApiResponseService<E>;
-  constructor() {
-    this.apiResponseService = new ApiResponseService();
-  }
+  constructor() {}
 
   async createOne(data: Object = {}, options: Object = {}) {
     return this.model.create(data, options).then((result) => {
@@ -36,19 +33,19 @@ export class BaseService<E extends Model> implements IBaseService<E> {
 
   async update(data: any = null, options: Object = {}) {
     const list = await this.findAll(options);
-    if (list.length === 0) return this.apiResponseService.withError(new ConflictErrorResponse());
+    if (list.length === 0) throw new ConflictErrorResponse();
     return this.model.update(data, options);
   }
 
   async inActive(data: any = null, options: Object = {}) {
     const list = await this.findAll(options);
-    if (list.length === 0) return this.apiResponseService.withError(new ConflictErrorResponse());
+    if (list.length === 0) throw new ConflictErrorResponse();
     return this.model.update(data, options);
   }
 
   async destroy(data: any = null, options: Object = {}) {
     const check = await this.findAll(options);
-    if (check.length === 0) return this.apiResponseService.withError(new ConflictErrorResponse());
+    if (check.length === 0) throw new ConflictErrorResponse();
     return this.model.update(data, options);
   }
 }

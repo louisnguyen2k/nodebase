@@ -1,5 +1,3 @@
-import { Model } from 'sequelize';
-
 export interface IBaseService<E> {
   createOne: (data: E, options: Object) => Promise<E>;
   bulkCreate(data);

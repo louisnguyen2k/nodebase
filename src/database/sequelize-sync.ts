@@ -1,5 +1,5 @@
 import database from '../configs/sequelize.config';
-import { logger } from '../shared/logger/logger';
+import { logger } from '../shared/services/logger/logger';
 
 export default (): void => {
   database()

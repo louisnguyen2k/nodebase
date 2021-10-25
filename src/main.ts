@@ -1,9 +1,8 @@
 import './register-module-alias';
 import 'reflect-metadata';
 import environment from './configs/environment.constants';
-import { logger } from './shared/logger/logger';
+import { logger } from './shared/services/logger/logger';
 import { createApp } from './app';
-import startSetup from '../setup';
 import connect from './database/sequelize-connect';
 import sync from './database/sequelize-sync';
 
@@ -17,6 +16,5 @@ async function bootstrap() {
   // sync db
   // sync();
   // register module
-  startSetup();
 }
 bootstrap();

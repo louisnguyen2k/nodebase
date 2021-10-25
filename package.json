@@ -30,6 +30,7 @@
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "~1.17.0",
+    "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
     "cors": "~2.8.1",
@@ -40,7 +41,6 @@
     "express-session": "^1.17.2",
     "express-useragent": "^1.0.15",
     "express-validator": "^6.12.1",
-    "firebase-admin": "^9.11.0",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
@@ -61,6 +61,7 @@
     "socket.io": "^4.1.2",
     "swagger-ui-express": "^4.1.6",
     "timestamp": "^0.0.1",
+    "tsyringe": "^4.6.0",
     "uuid": "^8.3.2",
     "winston": "^3.3.0"
   },
